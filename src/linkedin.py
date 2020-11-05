@@ -6,7 +6,7 @@ import time
 def connect_to_webdriver():
    # sys.path.insert(0,'/usr/lib/chromium-browser/chromedriver')
     chrome_options = webdriver.ChromeOptions()
-   # chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     wd = webdriver.Chrome(r'C:\Users\marin\Desktop\chromedriver.exe',chrome_options=chrome_options)

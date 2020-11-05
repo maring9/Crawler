@@ -13,26 +13,28 @@ from selenium import  webdriver
 import requests
 
 def main():
-    print("Enter your query: \n")
-    query = 'חברת שליחויות'
+    print("Enter your query: ")
+    query = input() # חברת שליחויות
     query_results = search_query(query, 100, 100)
     current_dir = os.getcwd()
     file_name = 'Query Results.csv'
     output_query(current_dir, file_name, query_results)
     urls = get_urls(current_dir, file_name)
-    print("Do you also want to search linkedin data? [yes/no]\n")
+    print("Do you also want to search linkedin data? [yes/no]")
     response = input()
     flag = False
     if response.lower() == 'yes' or response.lower() == 'y':
         flag = True
-        print("Enter linkedin email: \n")
+        print("Enter linkedin email: ")
         email = input()
-        print("Enter linked in password: \n")
+        print("Enter linkedin password: ")
         password = input()
         web_driver = connect_to_webdriver()
         connect_to_linkedin(email, password, web_driver)
         check_if_feed(web_driver)
-
+    else:
+        pass
+    
     data = []
     for url in urls:
         single_data_point = []
@@ -56,9 +58,13 @@ def main():
             pass
         except requests.exceptions.Timeout:
             pass
-    
-    fields = ['Company name', 'URL', 'Social Media', 'Email', 'Telephone', 'Linkedin', 'Linkedin data']
-    output_csv(current_dir, 'data.csv', fields=fields, data=data)
+    if flag:
+        web_driver.close()
+        fields = ['Company name', 'URL', 'Social Media', 'Email', 'Telephone', 'Linkedin', 'Linkedin data']
+        output_csv(fields, data)
+    else:
+        fields = ['Company name', 'URL', 'Social Media', 'Email', 'Telephone', 'Linkedin']
+        output_csv(fields, data)
 
 if __name__ == '__main__':
     main()
