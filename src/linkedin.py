@@ -3,6 +3,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 
+# Function to create and connect to the webdriver (used for getting linkedin data)
 def connect_to_webdriver():
    # sys.path.insert(0,'/usr/lib/chromium-browser/chromedriver')
     chrome_options = webdriver.ChromeOptions()
@@ -12,7 +13,8 @@ def connect_to_webdriver():
     wd = webdriver.Chrome(r'C:\Users\marin\Desktop\chromedriver.exe',chrome_options=chrome_options)
     return wd
 
-def connect_to_linkedin(email, password, web_driver):
+# Function to sign into linkedin account
+def sing_into_linkedin(email, password, web_driver):
     web_driver.get("https://www.linkedin.com/login")
     login_element = web_driver.find_element_by_name('session_key')
     login_element.send_keys(email)
@@ -22,7 +24,8 @@ def connect_to_linkedin(email, password, web_driver):
     time.sleep(0.5)
     login_element.submit()
 
-def check_if_feed(web_driver):
+# Function to check if sign in was successful
+def check_sign_in(web_driver):
     if not web_driver.current_url.__contains__('feed'):
         print("Enter PIN: ")
         pin = input()
@@ -31,6 +34,7 @@ def check_if_feed(web_driver):
         time.sleep(1)
         element.submit()
 
+# Function to scrap the data from linkedin profile
 def get_linkedin_data(url, web_driver): 
     page_url = url
     data = []
@@ -55,6 +59,7 @@ def get_linkedin_data(url, web_driver):
             data.append(loc.get_text().strip('\n '))
     return data
 
+# Helper function to check if link is valid
 def check_linkedin_url(url):
     page_url = url
     if(str(page_url).__contains__('company/')):

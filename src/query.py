@@ -1,6 +1,6 @@
 from googlesearch import search
 
-
+# Function to search a wanted query
 def search_query(wanted_query,results_per_page, number_of_results):
   query = wanted_query
   lines = []

@@ -2,12 +2,13 @@ import os
 import re
 import time
 import requests
-from urllib.parse import urlparse
 
+# Helper function to filter urls
 def filter_urls(urls):
     filtered_urls = [re.sub(".\n", "", url) for url in urls]
     return filtered_urls
 
+# Helper function to get urls from a csv file
 def get_urls(directory, file_name):
     urls = []
     with open(os.path.join(directory, file_name), 'r') as file:
@@ -16,6 +17,7 @@ def get_urls(directory, file_name):
     urls = filter_urls(urls)
     return urls
 
+# Function to get the plain text of a url
 def get_plain_text(url):
     time.sleep(0.01)
     headers = {
@@ -24,12 +26,4 @@ def get_plain_text(url):
     code = requests.get(url, headers = headers, verify = False, timeout = 10)
     text = code.text
     return text
-
-def get_company_names(url):
-    parsed = urlparse(url)
-    intermediary_name = parsed.netloc
-    if url.__contains__('www'):
-        return intermediary_name.split('.')[1]
-    else:
-        return intermediary_name.split('.')[0]
-
+    

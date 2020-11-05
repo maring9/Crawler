@@ -12,13 +12,14 @@ import sys
 from selenium import  webdriver
 import requests
 
+# Main function that runs the entire script
 def main():
     print("Enter your query: ")
     query = input() # חברת שליחויות
     query_results = search_query(query, 100, 100)
     current_dir = os.getcwd()
     file_name = 'Query Results.csv'
-    output_query(current_dir, file_name, query_results)
+    save_output(current_dir, file_name, query_results)
     urls = get_urls(current_dir, file_name)
     print("Do you also want to search linkedin data? [yes/no]")
     response = input()
@@ -30,8 +31,8 @@ def main():
         print("Enter linkedin password: ")
         password = input()
         web_driver = connect_to_webdriver()
-        connect_to_linkedin(email, password, web_driver)
-        check_if_feed(web_driver)
+        sing_into_linkedin(email, password, web_driver)
+        check_sign_in(web_driver)
     else:
         pass
     
@@ -44,7 +45,7 @@ def main():
             single_data_point = []
             single_data_point.append(get_company_names(url))
             single_data_point.append(url)
-            single_data_point.append(get_social_media(html_text))
+            single_data_point.append(search_social_media(html_text))
             single_data_point.append(search_email(html_text))
             single_data_point.append(get_number(html_text))
             linkedin_url = get_linkedin(html_text)
