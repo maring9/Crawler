@@ -13,14 +13,26 @@ from selenium import  webdriver
 import requests
 
 def main():
+    print("Enter your query: \n")
     query = 'חברת שליחויות'
     query_results = search_query(query, 100, 100)
     current_dir = os.getcwd()
     file_name = 'Query Results.csv'
-    output_csv(current_dir, file_name, query_results)
+    output_query(current_dir, file_name, query_results)
     urls = get_urls(current_dir, file_name)
-    # web_driver = connect_to_webdriver()
-    # connect_to_linkedin('', '')
+    print("Do you also want to search linkedin data? [yes/no]\n")
+    response = input()
+    flag = False
+    if response.lower() == 'yes' or response.lower() == 'y':
+        flag = True
+        print("Enter linkedin email: \n")
+        email = input()
+        print("Enter linked in password: \n")
+        password = input()
+        web_driver = connect_to_webdriver()
+        connect_to_linkedin(email, password, web_driver)
+        check_if_feed(web_driver)
+
     data = []
     for url in urls:
         single_data_point = []
@@ -35,9 +47,10 @@ def main():
             single_data_point.append(get_number(html_text))
             linkedin_url = get_linkedin(html_text)
             single_data_point.append(linkedin_url)
-            #for link in linkedin_url:
-            #    if check_linkedin_url(link):
-            #        single_data_point.append(get_linkedin_data(link))
+            if flag:
+                for link in linkedin_url:
+                    if check_linkedin_url(link):
+                        single_data_point.append(get_linkedin_data(link, web_driver))
             data.append(single_data_point)
         except requests.exceptions.ConnectionError:
             pass

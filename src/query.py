@@ -1,3 +1,6 @@
+from googlesearch import search
+
+
 def search_query(wanted_query,results_per_page, number_of_results):
   query = wanted_query
   lines = []
