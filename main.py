@@ -21,16 +21,18 @@ def main():
     file_name = 'Query Results.csv'
     save_output(current_dir, file_name, query_results)
     urls = get_urls(current_dir, file_name)
-    print("Do you also want to search linkedin data? [yes/no]")
+    print("Do you also want to search linkedin data? (Chromedriver is needed) [yes/no]")
     response = input()
     flag = False
     if response.lower() == 'yes' or response.lower() == 'y':
         flag = True
+        print("Enter chromedriver absolute path: ")
+        path = input()
+        web_driver = connect_to_webdriver(path)
         print("Enter linkedin email: ")
         email = input()
         print("Enter linkedin password: ")
         password = input()
-        web_driver = connect_to_webdriver()
         sing_into_linkedin(email, password, web_driver)
         check_sign_in(web_driver)
     else:

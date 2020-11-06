@@ -4,13 +4,14 @@ from bs4 import BeautifulSoup
 import time
 
 # Function to create and connect to the webdriver (used for getting linkedin data)
-def connect_to_webdriver():
+def connect_to_webdriver(path):
+    full_path = r"{}".format(path)
    # sys.path.insert(0,'/usr/lib/chromium-browser/chromedriver')
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    wd = webdriver.Chrome(r'C:\Users\marin\Desktop\chromedriver.exe',chrome_options=chrome_options)
+    wd = webdriver.Chrome(full_path,chrome_options=chrome_options)
     return wd
 
 # Function to sign into linkedin account
